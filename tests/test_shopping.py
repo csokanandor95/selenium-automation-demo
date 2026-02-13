@@ -140,25 +140,33 @@ class TestShopping:
         self.driver.find_element(By.ID, "checkout").click()
         
         # 4. Adatok kitöltése
-        wait = WebDriverWait(self.driver, 15) # 10 nem volt elég
-
+        wait = WebDriverWait(self.driver, 15)
+        
+        # First Name
         first_name = wait.until(
             EC.element_to_be_clickable((By.ID, "first-name"))
         )
+        first_name.clear()  # Tisztítás először
+        first_name.click()  # Fókusz biztosítása
         first_name.send_keys("John")
-
-        last_name = wait.until(
-            EC.element_to_be_clickable((By.ID, "last-name"))
-        )
+        
+        # Last Name
+        last_name = self.driver.find_element(By.ID, "last-name")
+        last_name.clear()
+        last_name.click()
         last_name.send_keys("Doe")
-
-        postal_code = wait.until(
-            EC.element_to_be_clickable((By.ID, "postal-code"))
-        )
+        
+        # Postal Code
+        postal_code = self.driver.find_element(By.ID, "postal-code")
+        postal_code.clear()
+        postal_code.click()
         postal_code.send_keys("12345")
         
-        # 5. Continue gomb
-        self.driver.find_element(By.ID, "continue").click()
+        # 5. Continue gomb - Várjuk meg, hogy kattintható legyen
+        continue_button = wait.until(
+            EC.element_to_be_clickable((By.ID, "continue"))
+        )
+        continue_button.click()
         
         # 6. Ellenőrzés - Checkout Overview oldalra kerültünk
         wait = WebDriverWait(self.driver, 10)
