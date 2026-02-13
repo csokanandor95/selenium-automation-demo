@@ -134,9 +134,9 @@ Skills acquired during project development:
 
 ## Author
 
-**[Your Name]**
+**Nándor Csóka**
 - GitHub: [@csokanandor95](https://github.com/csokanandor95)
-- LinkedIn: [linkedin.com/in/your-profile](https://www.linkedin.com/in/n%C3%A1ndor-cs%C3%B3ka-ba76171a2/)
+- LinkedIn: [My profile](https://www.linkedin.com/in/n%C3%A1ndor-cs%C3%B3ka-ba76171a2/)
 
 ## License
 
