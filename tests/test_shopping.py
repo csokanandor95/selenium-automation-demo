@@ -140,9 +140,22 @@ class TestShopping:
         self.driver.find_element(By.ID, "checkout").click()
         
         # 4. Adatok kitöltése
-        self.driver.find_element(By.ID, "first-name").send_keys("John")
-        self.driver.find_element(By.ID, "last-name").send_keys("Doe")
-        self.driver.find_element(By.ID, "postal-code").send_keys("12345")
+        wait = WebDriverWait(self.driver, 15) # 10 nem volt elég
+
+        first_name = wait.until(
+            EC.element_to_be_clickable((By.ID, "first-name"))
+        )
+        first_name.send_keys("John")
+
+        last_name = wait.until(
+            EC.element_to_be_clickable((By.ID, "last-name"))
+        )
+        last_name.send_keys("Doe")
+
+        postal_code = wait.until(
+            EC.element_to_be_clickable((By.ID, "postal-code"))
+        )
+        postal_code.send_keys("12345")
         
         # 5. Continue gomb
         self.driver.find_element(By.ID, "continue").click()
