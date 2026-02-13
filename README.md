@@ -28,7 +28,6 @@ Gain practical Selenium WebDriver experience through testing a real web applicat
 - Cart badge dynamic update
 - Remove item from cart
 - Cart inspection to see if contains item
-- Checkout process
 
 ## Installation and Execution
 
