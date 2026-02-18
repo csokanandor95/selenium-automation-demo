@@ -120,3 +120,23 @@ class TestLogin:
         
         assert "Sorry, this user has been locked out" in error_message.text
         print("Zárolt felhasználó teszt - PASS")
+
+    def test_empty_credentials(self):
+        """
+        Teszt: Üres mezőkkel bejelentkezési kísérlet
+        """
+        # 1. Oldal megnyitása
+        self.driver.get(self.base_url)
+
+        # 2. Login gomb megnyomása
+        login_button = self.driver.find_element(By.ID, "login-button")
+        login_button.click()
+
+        # 3. Ellenőrzés - Üres felhasználó hibaüzenet
+        wait = WebDriverWait(self.driver, 10)
+        error_message = wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[data-test='error']"))
+        )
+        
+        assert "Username is required" in error_message.text
+        print("Üres felhasználó mező teszt - PASS")
