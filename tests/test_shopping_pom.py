@@ -16,8 +16,17 @@ class TestShoppingPOM:
         """
         Browser setup - automatikus bejelentkezéssel
         """
+
+        # Jelszó figyelmeztető letiltása
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("prefs", {
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False,
+        "profile.password_manager_leak_detection": False
+        })
+
         service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
+        self.driver = webdriver.Chrome(service=service, options=options)
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
         
@@ -82,5 +91,9 @@ class TestShoppingPOM:
         # 2. termék hozzáadása
         self.products_page.add_bike_light_to_cart()
         assert self.products_page.get_cart_badge_count() == "2"
-        
+
+        # 3. termék hozzáadása
+        self.products_page.add_tshirt_to_cart()
+        assert self.products_page.get_cart_badge_count() == "3"
+
         print("POM Badge update - PASS")
