@@ -1,0 +1,55 @@
+name: Selenium Tests
+
+on:
+  push:
+    branches: [ main, test ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Manuális futtatás lehetősége
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Linux virtuális gép
+    
+    steps:
+    # 1. Kód letöltése
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    # 2. Python telepítése
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    
+    # 3. Függőségek telepítése
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    # 4. Chrome és ChromeDriver telepítése
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+    
+    # 5. Tesztek futtatása HEADLESS módban
+    - name: Run Selenium tests
+      run: |
+        pytest tests/test_login_pom.py tests/test_shopping_pom.py -v --html=report.html --self-contained-html
+    
+    # 6. Teszt report mentése (ha sikeres vagy sikertelen)
+    - name: Upload test report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-report
+        path: report.html
+    
+    # 7. Teszt eredmény summary
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "### Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "Tests completed. Check artifacts for detailed report." >> $GITHUB_STEP_SUMMARY
