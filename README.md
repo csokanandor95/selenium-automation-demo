@@ -1,6 +1,6 @@
 # Selenium WebDriver Automation Demo
 
-Automated test suite using Python, Selenium WebDriver, and Pytest. The project demonstrates fundamental web UI automation capabilities with Page Object Model (POM) design pattern implementation.
+Automated test suite using Python, Selenium WebDriver, and Pytest. The project demonstrates fundamental web UI automation capabilities with Page Object Model (POM) design pattern implementation and CI/CD integration.
 
 ## Project Goal
 
@@ -13,6 +13,7 @@ Gain practical Selenium WebDriver experience through testing a real web applicat
 - **Pytest** - Test framework and execution
 - **WebDriver Manager** - Automatic driver management
 - **Page Object Model** - Design pattern for code reusability
+- **GitHub Actions** - CI/CD pipeline for automated test execution
 
 ## Tested Features
 
@@ -70,11 +71,38 @@ pytest tests/test_shopping_pom.py -v
 
 # Generate HTML report after running tests
 pytest tests/ --html=report.html --self-contained-html
+
+# Run tests in headless mode (simulating CI environment)
+# Windows CMD/PowerShell
+set CI=true
+pytest tests/ -v
 ```
+## CI/CD Pipeline
+
+The project includes a GitHub Actions workflow that automatically runs tests on every push and pull request.
+
+### Workflow Features
+- Automatic test execution on push to main/test branches
+- Headless Chrome browser testing in Ubuntu environment
+- HTML test report generation and artifact storage
+- Test results visible in GitHub Actions tab
+
+### Accessing Test Reports
+1. Navigate to the **Actions** tab in GitHub
+2. Select the latest workflow run
+3. Download the **test-report** artifact
+4. Open `report.html` for detailed test results
+
+### Headless Mode
+Tests automatically run in headless mode when the `CI` environment variable is detected. This ensures compatibility with CI/CD environments without graphical displays.
 
 ## Project Structure
 ```
 selenium-automation-demo/
+│
+├── .github/
+│   └── workflows/
+│       └── selenium-tests.yml  # CI/CD workflow configuration
 │
 ├── tests/                      # Test files
 │   ├── test_login.py          # Basic login tests
@@ -103,12 +131,18 @@ The project demonstrates the use of Page Object Model design pattern:
 - **Code reusability**: Common operations in base_page.py
 - **Easy maintenance**: UI changes only needed in one place
 
+### CI/CD Integration
+- **Automated testing**: Tests run automatically on every code change
+- **Quality gates**: Ensures code quality before merging to main
+- **Artifact preservation**: Test reports saved for every pipeline run
+
 ### Best Practices
 - Explicit and implicit wait strategies
 - Pytest fixtures for setup/teardown management
 - Descriptive test names and docstrings
 - Assertion messages for detailed error reporting
 - WebDriver Manager - no manual driver installation needed
+- Headless browser support for CI/CD environments
 
 ## Demo Website
 
@@ -121,12 +155,14 @@ Skills acquired during project development:
 - Pytest test framework usage
 - Page Object Model implementation
 - Git version control and GitHub usage
+- CI/CD pipeline setup with GitHub Actions
+- Headless browser testing
 - Test automation best practices
 
 ## Future Enhancements
 
 - [ ] Cross-browser testing (Firefox, Edge)
-- [ ] CI/CD integration (GitHub Actions)
+- [ ] Parallel test execution
 - [ ] Screenshot capture on test failure
 - [ ] Data-driven tests (CSV/JSON)
 - [ ] Advanced reporting (other than pytest-html)
