@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
+import os
 
 
 class TestLoginPOM:
@@ -15,18 +16,31 @@ class TestLoginPOM:
     def setup_and_teardown(self):
         """
         Browser setup és teardown
+        CI környezetben headless módban fut
         """
+        # Chrome options konfigurálása
+        chrome_options = webdriver.ChromeOptions()
+        
+        # CI környezet (GitHub Actions) észlelése
+        if os.getenv('CI'):
+            print("CI environment detected - running in headless mode")
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--no-sandbox') # Sandbox biztonsági funkció letiltása: Linux container környezetben szükséges
+            chrome_options.add_argument('--disable-dev-shm-usage') # Elkerüli a /dev/shm memória problémákat Docker/CI környezetben
+            chrome_options.add_argument('--disable-gpu') # GPU gyorsítás kikapcsolása, Headless módban nem kell, elkerüli a crash-eket
+            chrome_options.add_argument('--window-size=1920,1080') # Virtuális ablak méret beállítása, hogy ugyanúgy jelenjenek meg az elemek mint normál módban
+        
         service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
         
         # Page Objects inicializálása
         self.login_page = LoginPage(self.driver)
         self.products_page = ProductsPage(self.driver)
-        
+            
         yield
-        
+            
         self.driver.quit()
     
     
