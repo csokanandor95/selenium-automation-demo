@@ -113,3 +113,18 @@ class TestLoginPOM:
         assert "Username is required" in error_text
         
         print("POM Üres mezők - PASS")
+
+    def test_invalid_username_pom(self):
+        """
+        Nem létező felhasználóval való próbálkozás - POM verzió
+        """
+        # Login oldal megnyitása
+        self.login_page.open()
+
+        # Nem létező felhasználóval próbálkozás
+        self.login_page.login("admin", "secret_sauce")
+
+         # Ellenőrzés
+        assert self.login_page.is_error_displayed(), "Hibaüzenet nem jelent meg!"
+        error_text = self.login_page.get_error_message()
+        assert "Username and password do not match any user in this service" in error_text

@@ -140,3 +140,31 @@ class TestLogin:
         
         assert "Username is required" in error_message.text
         print("Üres felhasználó mező teszt - PASS")
+
+    def test_invalid_username(self):
+        """
+        Nem létező felhasználóval való próbálkozás
+        """
+        # 1. Oldal megnyitása
+        self.driver.get(self.base_url)
+        
+        # 2. Nem létező felhasználó
+        username_field = self.driver.find_element(By.ID, "user-name")
+        username_field.send_keys("admin")
+
+        # 3. Jelszó
+        password_field = self.driver.find_element(By.ID, "password")
+        password_field.send_keys("secret_sauce")
+        
+        # 4. Login gomb megnyomása
+        login_button = self.driver.find_element(By.ID, "login-button")
+        login_button.click()
+
+        # 5. Ellenőrzés - Nem létező felhasználó hibaüzenet
+        wait = WebDriverWait(self.driver, 10)
+        error_message = wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[data-test='error']"))
+        )
+        
+        assert "Username and password do not match any user in this service" in error_message.text
+        print("Nem létező felhasználó teszt - PASS")
