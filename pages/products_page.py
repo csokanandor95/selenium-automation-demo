@@ -12,12 +12,19 @@ class ProductsPage(BasePage):
     INVENTORY_LIST = (By.CLASS_NAME, "inventory_list")
     CART_BADGE = (By.CLASS_NAME, "shopping_cart_badge")
     CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
+    CHECKOUT = (By.ID, "checkout")
+    CONTINUE = (By.ID, "continue")
     
     # Termék gombok
     ADD_BACKPACK = (By.ID, "add-to-cart-sauce-labs-backpack")
     REMOVE_BACKPACK = (By.ID, "remove-sauce-labs-backpack")
     ADD_BIKE_LIGHT = (By.ID, "add-to-cart-sauce-labs-bike-light")
     ADD_TSHIRT = (By.ID, "add-to-cart-sauce-labs-bolt-t-shirt")
+
+    # Credentials
+    FIRST_NAME = (By.ID, "first-name")
+    LAST_NAME = (By.ID, "last-name")
+    ZIP_POSTAL_CODE = (By.ID, "postal-code")
     
     def __init__(self, driver):
         super().__init__(driver)
@@ -67,9 +74,41 @@ class ProductsPage(BasePage):
         Kosár ikonra kattintás
         """
         self.click_element(self.CART_LINK)
+
+    def click_checkout(self):
+        """
+        Checkout gombra kattintás
+        """
+        self.click_element(self.CHECKOUT)
+
+    def click_continue(self):
+        """
+        Continue gombra kattintás
+        """
+        self.click_element(self.CONTINUE)
     
     def is_remove_button_visible(self):
         """
         Remove gomb láthatóságának ellenőrzése (Backpack termékhez)
         """
         return self.is_element_visible(self.REMOVE_BACKPACK)
+    
+    def is_checkout_button_visible(self):
+        """
+        Checkout gomb láthatóságának ellenőrzése
+        """
+        return self.is_element_visible(self.CHECKOUT)
+    
+    def is_continue_button_visible(self):
+        """
+        Continue gomb láthatóságának ellenőrzése
+        """
+        return self.is_element_visible(self.CONTINUE)
+    
+    def enter_checkout_credentials(self):
+        """
+        Beírni a checkouthoz szükséges adatokat
+        """
+        self.enter_text(self.FIRST_NAME, "John")
+        self.enter_text(self.LAST_NAME, "Wick")
+        self.enter_text(self.ZIP_POSTAL_CODE, "6500")

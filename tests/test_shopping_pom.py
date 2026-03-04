@@ -109,3 +109,49 @@ class TestShoppingPOM:
         assert self.products_page.get_cart_badge_count() == "3"
 
         print("POM Badge update - PASS")
+
+    def test_checkout_pom(self):
+        """
+        Teszt lépések: 
+            Add 1 item to cart
+            Item appears in cart
+            Click cart
+            'Your cart' page loads and checkout button appears
+            Click checkout
+            'Checkout: Your Information' page loads
+            Fill in First Name, Last name, Zip/Postal code then click Continue (negative test to make here)
+            'Checkout: Overview' page loads
+            Click finish
+        """
+        # Termék hozzáadása
+        self.products_page.add_backpack_to_cart()
+
+        # Ellenőrzés - Badge = 1
+        assert self.products_page.get_cart_badge_count() == "1"
+
+        # Kosárra kattintás
+        self.products_page.click_cart()
+
+        # Ellenőrzés - checkout gomb látszik-e
+        self.products_page.is_checkout_button_visible()
+
+        # Checkout gombra kattintás
+        self.products_page.click_checkout()
+
+        # Ellenőrzés - Checkout: Your Information oldalon vagyunk-e
+        assert self.products_page.get_page_title() == "Checkout: Your Information"
+
+        # Beírni az adatokat a checkouthoz
+        self.products_page.enter_checkout_credentials()
+
+        # Ellenőrzés - continue gomb látszik-e
+        self.products_page.is_continue_button_visible()
+
+        # Continue gombra kattintás
+        self.products_page.click_continue()
+
+        # Ellenőrzés - Checkout: Your Information oldalon vagyunk-e
+        assert self.products_page.get_page_title() == "Checkout: Overview"
+
+
+
