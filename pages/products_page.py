@@ -14,6 +14,7 @@ class ProductsPage(BasePage):
     CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
     CHECKOUT = (By.ID, "checkout")
     CONTINUE = (By.ID, "continue")
+    FINISH = (By.ID, "finish")
     
     # Termék gombok
     ADD_BACKPACK = (By.ID, "add-to-cart-sauce-labs-backpack")
@@ -86,6 +87,12 @@ class ProductsPage(BasePage):
         Continue gombra kattintás
         """
         self.click_element(self.CONTINUE)
+
+    def click_finish(self):
+        """
+        Finish gombra kattintás
+        """
+        self.click_element(self.FINISH)
     
     def is_remove_button_visible(self):
         """

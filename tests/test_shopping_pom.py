@@ -153,5 +153,8 @@ class TestShoppingPOM:
         # Ellenőrzés - Checkout: Your Information oldalon vagyunk-e
         assert self.products_page.get_page_title() == "Checkout: Overview"
 
+        # Finish gombra kattintás
+        self.products_page.click_finish()
+
 
 
