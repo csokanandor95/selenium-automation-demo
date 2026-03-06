@@ -112,16 +112,7 @@ class TestShoppingPOM:
 
     def test_checkout_pom(self):
         """
-        Teszt lépések: 
-            Add 1 item to cart
-            Item appears in cart
-            Click cart
-            'Your cart' page loads and checkout button appears
-            Click checkout
-            'Checkout: Your Information' page loads
-            Fill in First Name, Last name, Zip/Postal code then click Continue (negative test to make here)
-            'Checkout: Overview' page loads
-            Click finish
+        Teszt: Checkout flow happy path
         """
         # Termék hozzáadása
         self.products_page.add_backpack_to_cart()
@@ -155,6 +146,54 @@ class TestShoppingPOM:
 
         # Finish gombra kattintás
         self.products_page.click_finish()
+
+    def test_checkout_empty_fields_validation_pom(self):
+        """
+        Teszt: checkout űrlap mező validációs hibaüzenetek
+        """
+        # Termék hozzáadása
+        self.products_page.add_backpack_to_cart()
+
+        # Kosárra kattintás
+        self.products_page.click_cart()
+
+        # Checkout gombra kattintás
+        self.products_page.click_checkout()
+
+        # Mező űrlap összes mező üresen hagyása
+        self.products_page.enter_checkout_credentials_all_empty()
+
+        # Continue gombra kattintás
+        self.products_page.click_continue()
+
+         # Ellenőrzés
+        assert self.products_page.is_error_displayed_first_name(), "Hibaüzenet nem jelent meg!"
+        error_text = self.products_page.get_error_message_first_name()
+        assert "Error: First Name is required" in error_text
+
+        # First name kitöltése
+        self.products_page.enter_checkout_credentials_lastname_and_postal_empty()
+
+        # Continue gombra kattintás
+        self.products_page.click_continue()
+
+         # Ellenőrzés
+        assert self.products_page.is_error_displayed_first_name(), "Hibaüzenet nem jelent meg!"
+        error_text = self.products_page.get_error_message_first_name()
+        assert "Error: Last Name is required" in error_text
+
+         # First és Last name kitöltése
+        self.products_page.enter_checkout_credentials_postal_empty()
+
+        # Continue gombra kattintás
+        self.products_page.click_continue()
+
+         # Ellenőrzés
+        assert self.products_page.is_error_displayed_first_name(), "Hibaüzenet nem jelent meg!"
+        error_text = self.products_page.get_error_message_first_name()
+        assert "Error: Postal Code is required" in error_text
+
+
 
 
 

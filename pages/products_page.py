@@ -26,6 +26,10 @@ class ProductsPage(BasePage):
     FIRST_NAME = (By.ID, "first-name")
     LAST_NAME = (By.ID, "last-name")
     ZIP_POSTAL_CODE = (By.ID, "postal-code")
+
+    # Error messages
+    ERROR_CHECKOUT_FIELD = (By.CSS_SELECTOR, "[data-test='error']")
+
     
     def __init__(self, driver):
         super().__init__(driver)
@@ -119,3 +123,39 @@ class ProductsPage(BasePage):
         self.enter_text(self.FIRST_NAME, "John")
         self.enter_text(self.LAST_NAME, "Wick")
         self.enter_text(self.ZIP_POSTAL_CODE, "6500")
+
+    def enter_checkout_credentials_all_empty(self):
+        """
+        Beírni a checkouthoz szükséges adatokat
+        """
+        self.enter_text(self.FIRST_NAME, "")
+        self.enter_text(self.LAST_NAME, "")
+        self.enter_text(self.ZIP_POSTAL_CODE, "")
+
+    def get_error_message_first_name(self):
+        """
+        Hibaüzenet lekérése
+        """
+        return self.get_text(self.ERROR_CHECKOUT_FIELD)
+    
+    def is_error_displayed_first_name(self):
+        """
+        Hibaüzenet megjelenésének ellenőrzése
+        """
+        return self.is_element_visible(self.ERROR_CHECKOUT_FIELD)
+    
+    def enter_checkout_credentials_lastname_and_postal_empty(self):
+        """
+        Beírni a checkouthoz szükséges adatokat
+        """
+        self.enter_text(self.FIRST_NAME, "John")
+        self.enter_text(self.LAST_NAME, "")
+        self.enter_text(self.ZIP_POSTAL_CODE, "")
+
+    def enter_checkout_credentials_postal_empty(self):
+        """
+        Beírni a checkouthoz szükséges adatokat
+        """
+        self.enter_text(self.FIRST_NAME, "John")
+        self.enter_text(self.LAST_NAME, "Wick")
+        self.enter_text(self.ZIP_POSTAL_CODE, "")
