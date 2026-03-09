@@ -2,7 +2,7 @@ name: Selenium Tests
 
 on:
   push:
-    branches: [ main, test ]
+    branches: [ main, develop ]
   pull_request:
     branches: [ main ]
   workflow_dispatch: # Manuális futtatás lehetősége
